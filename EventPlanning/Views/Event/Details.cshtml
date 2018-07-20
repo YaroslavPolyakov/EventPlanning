@@ -1,0 +1,60 @@
+﻿@using System.Activities.Statements
+@model EventPlanning.Models.EventVisitor
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Events.NameEvent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Events.NameEvent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Events.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Events.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Events.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Events.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Events.DateEvent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Events.DateEvent)
+        </dd>
+
+    </dl>
+    <h3><p align="right"><a href="/Event/RegistrationOnEvent/@Model.Events.Id">Visit</a></p></h3>
+    <H4>List visitors</H4>
+    <ul>
+        @foreach (var p in Model.Visitors)
+        {
+            <li>@p.FirstName</li>
+        }
+    </ul>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Events.Id }) |
+    @Html.ActionLink("Back to list Events", "Index")
+</p>
