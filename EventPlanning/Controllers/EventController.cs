@@ -64,7 +64,7 @@ namespace EventPlanning.Controllers
         }
 
         // GET: Event/Edit/5
-        [Authorize(Roles = "Administrator")]
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,7 +82,7 @@ namespace EventPlanning.Controllers
         }
 
         // POST: Event/Edit/5
-        //[Authorize(Roles = "Administrator")]
+        [CustomAuthorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,NameEvent,Address,Description,DateEvent,TimeEvent")]
@@ -99,7 +99,7 @@ namespace EventPlanning.Controllers
         }
 
         // GET: Event/Delete/5
-        [Authorize(Roles = "Administrator")]
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -117,16 +117,19 @@ namespace EventPlanning.Controllers
         }
 
         // POST: Event/Delete/5
-        [Authorize(Roles = "Administrator")]
+        [CustomAuthorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Event eventDelete = db.Events.FirstOrDefault(x => x.Id == id);
-            Visitor visitors = db.Visitors.FirstOrDefault(x => x.EventId == id);
 
+            var visitorDelete = db.Visitors.Where(x => x.EventId == id);
+            foreach (var item in visitorDelete)
+            {
+                db.Visitors.Remove(item);
+            }
             db.Events.Remove(eventDelete);
-            db.Visitors.Remove(visitors);
             db.SaveChanges();
 
             return RedirectToAction("Index");
