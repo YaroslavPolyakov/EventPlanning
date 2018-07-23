@@ -1,4 +1,7 @@
-﻿using Microsoft.Owin;
+﻿using EventPlanning.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(EventPlanning.Startup))]

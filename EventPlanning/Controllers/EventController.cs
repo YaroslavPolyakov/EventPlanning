@@ -18,7 +18,6 @@ namespace EventPlanning.Controllers
     {
         EventContext db = new EventContext();
 
-        // GET: Event
         public ActionResult Visitor()
         {
             IEnumerable<Visitor> visitors = db.Visitors;
@@ -33,29 +32,29 @@ namespace EventPlanning.Controllers
             return View(db.Events.ToList());
         }
 
-        // GET: Event/Details/5
         public ActionResult Details(int id)
         {
 
             var events = db.Events.FirstOrDefault(x => x.Id == id);
-            var visitors = db.Visitors.Where(x => x.EventId == id && x.ConfirmedEmail == true).ToList();
+            var visitors = db.Visitors.Where(x => x.EventId == id && x.ConfirmedEmail).ToList();
             var eventVisitors = new EventVisitor() { Events = events, Visitors = visitors };
             return View(eventVisitors);
         }
 
-        // GET: Event/Create
+        [CustomAuthorize(Roles = "Administrator")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Event/Create
+        [CustomAuthorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,NameEvent,Address,Description,DateEvent")]
+        public ActionResult Create([Bind(Include = "Id,NameEvent,Address,Description,DateEvent,TimeEvent")]
             Event eventCreate)
         {
-            if (ModelState.IsValid && eventCreate.DateEvent>=DateTime.Now)
+            if (ModelState.IsValid && eventCreate.DateEvent >= DateTime.Now)
             {
                 db.Events.Add(eventCreate);
                 db.SaveChanges();
@@ -65,6 +64,7 @@ namespace EventPlanning.Controllers
         }
 
         // GET: Event/Edit/5
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,9 +82,10 @@ namespace EventPlanning.Controllers
         }
 
         // POST: Event/Edit/5
+        //[Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NameEvent,Address,Description")]
+        public ActionResult Edit([Bind(Include = "Id,NameEvent,Address,Description,DateEvent,TimeEvent")]
             Event eventEdit)
         {
             if (ModelState.IsValid)
@@ -98,6 +99,7 @@ namespace EventPlanning.Controllers
         }
 
         // GET: Event/Delete/5
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -115,13 +117,16 @@ namespace EventPlanning.Controllers
         }
 
         // POST: Event/Delete/5
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Event eventDelete = db.Events.FirstOrDefault(x => x.Id == id);
+            Visitor visitors = db.Visitors.FirstOrDefault(x => x.EventId == id);
 
             db.Events.Remove(eventDelete);
+            db.Visitors.Remove(visitors);
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -213,29 +218,6 @@ namespace EventPlanning.Controllers
 
             }
             else return RedirectToAction("Error", "Event");
-        }
-
-        [HttpPost]
-        public ActionResult Contact()
-        {
-            if (ModelState.IsValid)
-            {
-                Event poll = new Event();
-                //poll.NameEvent = poll_name;
-                db.Events.Add(poll);
-                db.SaveChanges();
-                decimal id = poll.Id;
-                //que_name = new List<string>();
-                //for (int i = 0; i < que_name.Count; i++)
-                {
-                    //eVE pq = new Polls_Questions();
-                    //pq.que_poll_id = id;
-                    //pq.que_name = Convert.ToString(que_name);
-                    //db.Polls_Questions.Add(pq);
-                    //db.SaveChanges();
-                }
-            }
-            return View();
         }
     }
 }

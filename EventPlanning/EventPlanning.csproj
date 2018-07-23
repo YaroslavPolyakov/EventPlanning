@@ -274,16 +274,15 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Event\RegistrationOnEvent.cshtml" />
-    <Content Include="Views\Event\Index1.cshtml" />
-    <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Event\Delete.cshtml" />
     <Content Include="Views\Event\Details.cshtml" />
     <Content Include="Views\Event\ConfirmMail.cshtml" />
     <Content Include="Views\Event\Confirm.cshtml" />
     <Content Include="Views\Event\Error.cshtml" />
     <Content Include="Views\Event\ViewConfirmEmail.cshtml" />
-    <Content Include="Views\Event\Create.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\Event\Edit.cshtml" />
+    <Content Include="Views\Event\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

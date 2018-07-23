@@ -6,10 +6,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Details event</h2>
 
 <div>
-    <h4>Event</h4>
+    @if (User.IsInRole("Administrator"))
+    {
+        @Html.ActionLink("Edit event", "Edit", new { id = Model.Events.Id })
+    }
     <hr />
     <dl class="dl-horizontal">
         
@@ -43,18 +46,27 @@
         <dd>
             @Html.DisplayFor(model => model.Events.DateEvent)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Events.TimeEvent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Events.TimeEvent)
+        </dd>
 
     </dl>
     <h3><p align="right"><a href="/Event/RegistrationOnEvent/@Model.Events.Id">Visit</a></p></h3>
-    <H4>List visitors</H4>
-    <ul>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <H4>List visitors</H4>
         @foreach (var p in Model.Visitors)
         {
-            <li>@p.FirstName</li>
+            <dt>@p.FirstName</dt>
         }
-    </ul>
+            </dl>
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Events.Id }) |
-    @Html.ActionLink("Back to list Events", "Index")
+    @Html.ActionLink(" Back to list Events", "Index")
 </p>
